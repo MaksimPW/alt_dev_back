@@ -1,0 +1,46 @@
+require:
+  - rubocop-rails
+  - rubocop-rspec
+
+AllCops:
+  TargetRailsVersion: 6.0
+  TargetRubyVersion: 2.6
+  DisplayCopNames: true
+  Exclude:
+    - bin/**/*
+    - db/**/*
+    - config/**/*
+    - tmp/**/*
+    - migrate.rb
+    - node_modules/**/*
+    - vendor/bundle/**/*
+
+Lint/AssignmentInCondition:
+  Enabled: false
+
+Style/AndOr:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - config/**/*
+    - lib/tasks/*.rake
+    - spec/**/*
+
+Metrics/LineLength:
+  Max: 120
+
+Rails:
+  Enabled: true
+
+RSpec/MultipleExpectations:
+  Max: 40
+
+RSpec/NestedGroups:
+  Max: 10
+
+RSpec/ExampleLength:
+  Max: 40
