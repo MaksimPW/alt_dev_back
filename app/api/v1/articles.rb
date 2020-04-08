@@ -34,6 +34,7 @@ module V1
       params do
         requires :title, type: String
         optional :description, type: String
+        optional :cover, type: Rack::Multipart::UploadedFile
         requires :content, type: String
         optional :public_date, type: Date
         optional :hidden, type: Boolean
