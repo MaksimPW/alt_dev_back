@@ -21,6 +21,14 @@ module V1
           error!('Unauthorized', 401)
         end
       end
+
+      desc 'User info'
+      get :current do
+        authenticate!
+
+        @user = current_user
+        present @user, with: Entities::User
+      end
     end
   end
 end

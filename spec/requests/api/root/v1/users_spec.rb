@@ -12,6 +12,7 @@ RSpec.describe API::Root::V1::Users, type: :request do
       password: password
     }
   end
+  let(:headers) { auth_header(user) }
 
   before do
     user
@@ -36,6 +37,26 @@ RSpec.describe API::Root::V1::Users, type: :request do
 
       before do
         post '/api/v1/users/sign_in', params: params
+      end
+
+      include_examples 'expect 401'
+    end
+  end
+
+  describe '#current' do
+    context 'with positive case' do
+      before do
+        get '/api/v1/users/current', headers: headers
+      end
+
+      include_examples 'expect 200'
+    end
+
+    context 'with negative case' do
+      let(:headers) {}
+
+      before do
+        get '/api/v1/users/current', headers: headers
       end
 
       include_examples 'expect 401'
