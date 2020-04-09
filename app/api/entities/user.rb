@@ -4,6 +4,7 @@ module Entities
   class User < Grape::Entity
     format_with(:iso_timestamp, &:iso8601)
 
+    expose :id
     expose :email
 
     with_options(format_with: :iso_timestamp) do

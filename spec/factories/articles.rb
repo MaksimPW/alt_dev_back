@@ -7,6 +7,6 @@ FactoryBot.define do
     content { Faker::ChuckNorris.fact }
     cover { 'MyString' }
     public_date { '2020-04-06' }
-    hidden { false }
+    show { true }
   end
 end

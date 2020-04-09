@@ -10,10 +10,10 @@ RSpec.describe API::Root::V1::Articles, type: :request do
   let(:params) { nil }
 
   let(:articles) { create_list(:article, 2, user: user) }
-  let(:hidden_articles) { create_list(:article, 3, user: user, hidden: true) }
+  let(:hidden_articles) { create_list(:article, 3, user: user, show: false) }
 
   let(:other_articles) { create_list(:article, 2, user: other_user) }
-  let(:other_hidden_articles) { create_list(:article, 1, user: other_user, hidden: true) }
+  let(:other_hidden_articles) { create_list(:article, 1, user: other_user, show: false) }
 
   before do
     articles

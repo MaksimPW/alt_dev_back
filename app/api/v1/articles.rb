@@ -12,7 +12,7 @@ module V1
       get ':id' do
         @article = Article.where(id: declared(params)[:id]).first
         error!('Not found', 404) unless @article
-        error!('Forbidden', 403) if @article.hidden && @article.user_id != current_user.id
+        error!('Forbidden', 403) if !@article.show && @article.user_id != current_user.id
 
         present @article, with: Entities::Article
       end
@@ -23,7 +23,7 @@ module V1
         articles = if params[:mine]
                      Article.where(user: current_user)
                    else
-                     Article.where(hidden: false)
+                     Article.where(show: true)
                    end
 
         present articles, with: Entities::Article
@@ -37,12 +37,12 @@ module V1
         optional :cover, type: Rack::Multipart::UploadedFile
         requires :content, type: String
         optional :public_date, type: Date
-        optional :hidden, type: Boolean
+        optional :show, type: Boolean
       end
       post do
         authenticate!
 
-        @article = Article.new(declared(params))
+        @article = Article.new(params)
         @article.user = current_user
         @article.save
         present @article, with: Entities::Article
@@ -56,15 +56,15 @@ module V1
         optional :description, type: String
         optional :content, type: String
         optional :public_date, type: Date
-        optional :hidden, type: Boolean
+        optional :show, type: Boolean
       end
       patch ':id' do
         authenticate!
 
-        @article = Article.find(declared(params)[:id])
+        @article = Article.find(params[:id])
         error!('Forbidden', 403) unless @article.user_id == current_user.id
 
-        @article.update(declared(params))
+        @article.update(params)
         present @article, with: Entities::Article
       end
 
@@ -76,7 +76,7 @@ module V1
       delete ':id' do
         authenticate!
 
-        @article = Article.find(declared(params)[:id])
+        @article = Article.find(params[:id])
         error!('Forbidden', 403) unless @article.user_id == current_user.id
 
         @article.destroy!
